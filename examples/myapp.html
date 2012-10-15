@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-  <title>SlickGrid example 3: Editing</title>
+  <title>An online financial model generator</title>
   <link rel="stylesheet" href="../slick.grid.css" type="text/css"/>
   <link rel="stylesheet" href="../css/smoothness/jquery-ui-1.8.16.custom.css" type="text/css"/>
   <link rel="stylesheet" href="examples.css" type="text/css"/>
@@ -119,10 +119,15 @@
                         return $.extend(true, {}, obj);
                     });
 
-  var cf_columns = $.map(columns, function (obj) {
-                       return $.extend(true, {}, obj);
-                   });
-  
+  var cf_columns = [
+    {id: "title", name:"", field: "title", width: 200},
+    {id: "y0", name: "year 0", field: "y0", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y1", name: "year 1", field: "y1", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y2", name: "year 2", field: "y2", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y3", name: "year 3", field: "y3", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y4", name: "year 4", field: "y4", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y5", name: "year 5", field: "y5", width: 75, cssClass: "stress", editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+  ];
   var options = {
     editable: true,
     enableAddRow: true,
@@ -170,6 +175,8 @@
                                                              
     bs_grid = new Slick.Grid("#bsGrid", bs_data, bs_columns, fs_options);
     
+    cf_grid = new Slick.Grid("#cfGrid", cf_data, bs_columns, fs_options);
+
     grid.setSelectionModel(new Slick.CellSelectionModel());
 
     grid.onAddNewRow.subscribe(function (e, args) {
