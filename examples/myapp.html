@@ -20,8 +20,10 @@
 <div style="position:relative">
   <div style="width:600px;">
     <div id="myGrid" style="width:100%;height:500px;"></div>
+    <input type="button" name="add_row" value="add_row" id="add_row">
+    <input type="button" name="remove_row" value="remove_row" id="remove_row">
   </div>
-
+  
   <div class="options-panel">
     <h2>Demonstrates:</h2>
     <ul>
@@ -34,6 +36,7 @@
     <button onclick="grid.setOptions({autoEdit:true})">Auto-edit ON</button>
     &nbsp;
     <button onclick="grid.setOptions({autoEdit:false})">Auto-edit OFF</button>
+
   </div>
 </div>
 
@@ -91,7 +94,30 @@
       d["finish"] = "01/05/2009";
       d["effortDriven"] = (i % 5 == 0);
     }
-
+    
+    $("#add_row").click(function() {
+      var dd = grid.getData();
+      dd.splice(dd.length,0,{"title":""});
+      grid.invalidateRow(data.length);
+      grid.updateRowCount();
+      grid.render();
+      grid.scrollRowIntoView(dd.length-1)
+    })
+    
+    $("#remove_row").click(function() {
+      var dd = grid.getData();
+      var current_row = grid.getActiveCell().row;
+      dd.splice(current_row,1);
+      var r = current_row;
+      while (r<dd.length){
+        grid.invalidateRow(r);
+        r++;
+      }
+      grid.updateRowCount();
+      grid.render();
+      grid.scrollRowIntoView(current_row-1)
+    })
+    
     grid = new Slick.Grid("#myGrid", data, columns, options);
 
     grid.setSelectionModel(new Slick.CellSelectionModel());
