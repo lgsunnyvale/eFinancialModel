@@ -19,7 +19,7 @@
 <body>
 <div id="container" class="current">
   <div id="assumption">
-    <div id="myGrid" style="height:300px;"></div>
+    <div id="myGrid" style="height:350px;"></div>
   </div>                     
   <div id="pl">              
      <div id="plGrid" style="height:280px;"></div>
@@ -27,6 +27,10 @@
   <div id="bs">                     
      <div id="bsGrid" style="height:250px;"></div>
   </div>
+  <div id="cf">                     
+     <div id="cfGrid" style="height:250px;"></div>
+  </div>
+  
   <!-- <div class="options-panel">
     <input type="button" name="add_row" value="add_row" id="add_row">
     <input type="button" name="remove_row" value="remove_row" id="remove_row">
@@ -34,11 +38,9 @@
 </div>
 
 <script src="../lib/firebugx.js"></script>
-
 <script src="../lib/jquery-1.7.min.js"></script>
 <script src="../lib/jquery-ui-1.8.16.custom.min.js"></script>
 <script src="../lib/jquery.event.drag-2.0.min.js"></script>
-
 <script src="../slick.core.js"></script>
 <script src="../plugins/slick.cellrangedecorator.js"></script>
 <script src="../plugins/slick.cellrangeselector.js"></script>
@@ -66,7 +68,8 @@
     {"title": "Account Payable Turnover"},
     {"title": "Inventory Turnover"},
     {"title": "Capital Expenditure"},
-    {"title": "Research & Development"}
+    {"title": "Research & Development"},
+    {"title": "Discount rate for equity valuation"}
   ];
   
   var pl_data = [
@@ -90,6 +93,14 @@
     {"title": "Total liabilities and equity"}
   ];
   
+  var cf_data = [
+    {"title": "Net Income"},
+    {"title": "Changes in Working Capital"},
+    {"title": "Capital Expenditures"},
+    {"title": "Free Cash Flow"},
+    {"title": "Equity Value"}
+  ];
+  
   var columns = [
     {id: "title", name:"", field: "title", width: 200},
     {id: "y0", name: "now", field: "y0", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
@@ -100,25 +111,17 @@
     {id: "y5", name: "year 5", field: "y5", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
   ];
   
-  var pl_columns = [
-    {id: "title", name:"", field: "title", width: 200},
-    {id: "y0", name: "now", field: "y0", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-    {id: "y1", name: "year 1", field: "y1", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-    {id: "y2", name: "year 2", field: "y2", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-    {id: "y3", name: "year 3", field: "y3", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-    {id: "y4", name: "year 4", field: "y4", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-    {id: "y5", name: "year 5", field: "y5", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-  ];
-  
-  var bs_columns = [
-    {id: "title", name:"", field: "title", width: 200},
-    {id: "y0", name: "now", field: "y0", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-    {id: "y1", name: "year 1", field: "y1", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-    {id: "y2", name: "year 2", field: "y2", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-    {id: "y3", name: "year 3", field: "y3", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-    {id: "y4", name: "year 4", field: "y4", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-    {id: "y5", name: "year 5", field: "y5", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-  ];
+  var bs_columns = $.map(columns, function (obj) {
+                        return $.extend(true, {}, obj);
+                    });
+
+  var pl_columns = $.map(columns, function (obj) {
+                        return $.extend(true, {}, obj);
+                    });
+
+  var cf_columns = $.map(columns, function (obj) {
+                       return $.extend(true, {}, obj);
+                   });
   
   var options = {
     editable: true,
