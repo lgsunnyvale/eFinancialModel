@@ -17,27 +17,20 @@
   </style>
 </head>
 <body>
-<div style="position:relative">
-  <div style="width:600px;">
-    <div id="myGrid" style="width:100%;height:500px;"></div>
+<div id="container" class="current">
+  <div id="assumption">
+    <div id="myGrid" style="height:300px;"></div>
+  </div>                     
+  <div id="pl">              
+     <div id="plGrid" style="height:280px;"></div>
+  </div>                            
+  <div id="bs">                     
+     <div id="bsGrid" style="height:250px;"></div>
+  </div>
+  <!-- <div class="options-panel">
     <input type="button" name="add_row" value="add_row" id="add_row">
     <input type="button" name="remove_row" value="remove_row" id="remove_row">
-  </div>
-  
-  <div class="options-panel">
-    <h2>Demonstrates:</h2>
-    <ul>
-      <li>adding basic keyboard navigation and editing</li>
-      <li>custom editors and validators</li>
-      <li>auto-edit settings</li>
-    </ul>
-
-    <h2>Options:</h2>
-    <button onclick="grid.setOptions({autoEdit:true})">Auto-edit ON</button>
-    &nbsp;
-    <button onclick="grid.setOptions({autoEdit:false})">Auto-edit OFF</button>
-
-  </div>
+  </div> -->
 </div>
 
 <script src="../lib/firebugx.js"></script>
@@ -64,40 +57,90 @@
   }
 
   var grid;
-  var data = [];
-  var columns = [
-    {id: "title", name: "Title", field: "title", width: 120, cssClass: "cell-title", editor: Slick.Editors.Text, validator: requiredFieldValidator},
-    {id: "desc", name: "Description", field: "description", width: 100, editor: Slick.Editors.LongText},
-    {id: "duration", name: "Duration", field: "duration", editor: Slick.Editors.Text},
-    {id: "%", name: "% Complete", field: "percentComplete", width: 80, resizable: false, formatter: Slick.Formatters.PercentCompleteBar, editor: Slick.Editors.PercentComplete},
-    {id: "start", name: "Start", field: "start", minWidth: 60, editor: Slick.Editors.Date},
-    {id: "finish", name: "Finish", field: "finish", minWidth: 60, editor: Slick.Editors.Date},
-    {id: "effort-driven", name: "Effort Driven", width: 80, minWidth: 20, maxWidth: 80, cssClass: "cell-effort-driven", field: "effortDriven", formatter: Slick.Formatters.Checkmark, editor: Slick.Editors.Checkbox}
+  var data = [
+    {"title": "Revenue"},
+    {"title": "Revenue growth %"},
+    {"title": "Cost"},
+    {"title": "Cost growth %"},
+    {"title": "Account Receiveable Turnover"},
+    {"title": "Account Payable Turnover"},
+    {"title": "Inventory Turnover"},
+    {"title": "Capital Expenditure"},
+    {"title": "Research & Development"}
   ];
+  
+  var pl_data = [
+    {"title": "Revenue"},
+    {"title": "Cost"},
+    {"title": "Gross Profit"},
+    {"title": "MG&A"},
+    {"title": "R&D"},
+    {"title": "Profit before interest and tax"},
+    {"title": "Tax"},
+    {"title": "Net Income"}
+  ];
+  
+  var bs_data = [
+    {"title": "Cash"},
+    {"title": "Working Capital"},
+    {"title": "Fixed Asset"},
+    {"title": "Total Assets"},
+    {"title": "Retained Earnings"},
+    {"title": "Paid-in Capital"},
+    {"title": "Total liabilities and equity"}
+  ];
+  
+  var columns = [
+    {id: "title", name:"", field: "title", width: 200},
+    {id: "y0", name: "now", field: "y0", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y1", name: "year 1", field: "y1", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y2", name: "year 2", field: "y2", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y3", name: "year 3", field: "y3", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y4", name: "year 4", field: "y4", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y5", name: "year 5", field: "y5", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+  ];
+  
+  var pl_columns = [
+    {id: "title", name:"", field: "title", width: 200},
+    {id: "y0", name: "now", field: "y0", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y1", name: "year 1", field: "y1", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y2", name: "year 2", field: "y2", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y3", name: "year 3", field: "y3", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y4", name: "year 4", field: "y4", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y5", name: "year 5", field: "y5", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+  ];
+  
+  var bs_columns = [
+    {id: "title", name:"", field: "title", width: 200},
+    {id: "y0", name: "now", field: "y0", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y1", name: "year 1", field: "y1", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y2", name: "year 2", field: "y2", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y3", name: "year 3", field: "y3", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y4", name: "year 4", field: "y4", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y5", name: "year 5", field: "y5", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+  ];
+  
   var options = {
     editable: true,
     enableAddRow: true,
     enableCellNavigation: true,
     asyncEditorLoading: false,
-    autoEdit: false
+    autoEdit: true
   };
+  
+  var fs_options = {
+    editable: false,
+    enableAddRow: false,
+    enableCellNavigation: true,
+    asyncEditorLoading: false,
+    autoEdit: false
+  }
 
   $(function () {
-    for (var i = 0; i < 500; i++) {
-      var d = (data[i] = {});
-
-      d["title"] = "Task " + i;
-      d["description"] = "This is a sample task description.\n  It can be multiline";
-      d["duration"] = "5 days";
-      d["percentComplete"] = Math.round(Math.random() * 100);
-      d["start"] = "01/01/2009";
-      d["finish"] = "01/05/2009";
-      d["effortDriven"] = (i % 5 == 0);
-    }
     
     $("#add_row").click(function() {
       var dd = grid.getData();
-      dd.splice(dd.length,0,{"title":""});
+      dd.splice(dd.length,0,{"input":""});
       grid.invalidateRow(data.length);
       grid.updateRowCount();
       grid.render();
@@ -119,7 +162,11 @@
     })
     
     grid = new Slick.Grid("#myGrid", data, columns, options);
-
+    
+    pl_grid = new Slick.Grid("#plGrid", pl_data, pl_columns, fs_options);
+                                                             
+    bs_grid = new Slick.Grid("#bsGrid", bs_data, bs_columns, fs_options);
+    
     grid.setSelectionModel(new Slick.CellSelectionModel());
 
     grid.onAddNewRow.subscribe(function (e, args) {
