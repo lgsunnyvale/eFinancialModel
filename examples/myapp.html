@@ -192,7 +192,6 @@
     
     pl_grid.recalculate = function(){
       //revenue
-      pl_data[0].y0 = (parseFloat(data[0].y0)).toFixed(2);
       pl_data[0].y1 = (parseFloat(data[0].y0) * (1 + parseFloat(data[1].y1)/100   )).toFixed(2);
       pl_data[0].y2 = (parseFloat(pl_data[0].y1) * (1 + parseFloat(data[1].y2)/100)).toFixed(2);
       pl_data[0].y3 = (parseFloat(pl_data[0].y2) * (1 + parseFloat(data[1].y3)/100)).toFixed(2);
@@ -200,7 +199,6 @@
       pl_data[0].y5 = (parseFloat(pl_data[0].y4) * (1 + parseFloat(data[1].y5)/100)).toFixed(2);
       
       //cost
-      pl_data[1].y0 = parseFloat(data[2].y0).toFixed(2);
       pl_data[1].y1 = (parseFloat(data[2].y0)    * (1 + parseFloat(data[3].y1)/100)).toFixed(2);
       pl_data[1].y2 = (parseFloat(pl_data[1].y1) * (1 + parseFloat(data[3].y2)/100)).toFixed(2);
       pl_data[1].y3 = (parseFloat(pl_data[1].y2) * (1 + parseFloat(data[3].y3)/100)).toFixed(2);
@@ -208,7 +206,6 @@
       pl_data[1].y5 = (parseFloat(pl_data[1].y4) * (1 + parseFloat(data[3].y5)/100)).toFixed(2);
       
       //Gross Profit
-      pl_data[2].y0 = (pl_data[0].y0 - pl_data[1].y0).toFixed(2);
       pl_data[2].y1 = (pl_data[0].y1 - pl_data[1].y1).toFixed(2);
       pl_data[2].y2 = (pl_data[0].y2 - pl_data[1].y2).toFixed(2);
       pl_data[2].y3 = (pl_data[0].y3 - pl_data[1].y3).toFixed(2);
@@ -216,7 +213,6 @@
       pl_data[2].y5 = (pl_data[0].y5 - pl_data[1].y5).toFixed(2);
       
       //MG&A
-      pl_data[3].y0 = data[8].y0;
       pl_data[3].y1 = data[8].y1;
       pl_data[3].y2 = data[8].y2;
       pl_data[3].y3 = data[8].y3;
@@ -224,7 +220,6 @@
       pl_data[3].y5 = data[8].y5;
       
       //R&D
-      pl_data[4].y0 = data[9].y0;
       pl_data[4].y1 = data[9].y1;
       pl_data[4].y2 = data[9].y2;
       pl_data[4].y3 = data[9].y3;
@@ -232,7 +227,6 @@
       pl_data[4].y5 = data[9].y5;
       
       //PBT
-      pl_data[5].y0 = (pl_data[2].y0 - pl_data[3].y0 - pl_data[4].y0).toFixed(2)
       pl_data[5].y1 = (pl_data[2].y1 - pl_data[3].y1 - pl_data[4].y1).toFixed(2)
       pl_data[5].y2 = (pl_data[2].y2 - pl_data[3].y2 - pl_data[4].y2).toFixed(2)
       pl_data[5].y3 = (pl_data[2].y3 - pl_data[3].y3 - pl_data[4].y3).toFixed(2)
@@ -240,7 +234,6 @@
       pl_data[5].y5 = (pl_data[2].y5 - pl_data[3].y5 - pl_data[4].y5).toFixed(2)
       
       //Tax
-      pl_data[6].y0 = (pl_data[5].y0 > 0) ? (pl_data[5].y0 * parseFloat(data[10].y0)/100).toFixed(2) : 0;
       pl_data[6].y1 = (pl_data[5].y1 > 0) ? (pl_data[5].y1 * parseFloat(data[10].y0)/100).toFixed(2) : 0; //assum no tax cuts (unless Romney is elected)
       pl_data[6].y2 = (pl_data[5].y2 > 0) ? (pl_data[5].y2 * parseFloat(data[10].y0)/100).toFixed(2) : 0;
       pl_data[6].y3 = (pl_data[5].y3 > 0) ? (pl_data[5].y3 * parseFloat(data[10].y0)/100).toFixed(2) : 0;
@@ -248,7 +241,6 @@
       pl_data[6].y5 = (pl_data[5].y5 > 0) ? (pl_data[5].y5 * parseFloat(data[10].y0)/100).toFixed(2) : 0;
       
       //Net income
-      pl_data[7].y0 = (pl_data[5].y0 - pl_data[6].y0).toFixed(2);
       pl_data[7].y1 = (pl_data[5].y1 - pl_data[6].y1).toFixed(2);
       pl_data[7].y2 = (pl_data[5].y2 - pl_data[6].y2).toFixed(2);
       pl_data[7].y3 = (pl_data[5].y3 - pl_data[6].y3).toFixed(2);
@@ -258,8 +250,16 @@
     };
     
     bs_grid.recalculate = function() {
+      //cash
+      bs_data[0].y0 = parseFloat(data[11].y0);
+      bs_data[0].y1 = parseFloat(bs_data[0].y0) + parseFloat(cf_data[4].y1);
+      bs_data[0].y2 = parseFloat(bs_data[0].y1) + parseFloat(cf_data[4].y2);
+      bs_data[0].y3 = parseFloat(bs_data[0].y2) + parseFloat(cf_data[4].y3);
+      bs_data[0].y4 = parseFloat(bs_data[0].y3) + parseFloat(cf_data[4].y4);
+      bs_data[0].y5 = parseFloat(bs_data[0].y4) + parseFloat(cf_data[4].y5);
+      
       //account receiveable
-      bs_data[1].y0 = pl_data[0].y0 * parseFloat(data[4].y0)/360;
+      bs_data[1].y0 = 0.0;
       bs_data[1].y1 = pl_data[0].y1 * parseFloat(data[4].y1)/360;
       bs_data[1].y2 = pl_data[0].y2 * parseFloat(data[4].y2)/360;
       bs_data[1].y3 = pl_data[0].y3 * parseFloat(data[4].y3)/360;
@@ -267,7 +267,7 @@
       bs_data[1].y5 = pl_data[0].y5 * parseFloat(data[4].y5)/360;
       
       //account payable
-      bs_data[5].y0 = pl_data[1].y0 * parseFloat(data[5].y0)/360;
+      bs_data[5].y0 = 0.0;
       bs_data[5].y1 = pl_data[1].y1 * parseFloat(data[5].y1)/360;
       bs_data[5].y2 = pl_data[1].y2 * parseFloat(data[5].y2)/360;
       bs_data[5].y3 = pl_data[1].y3 * parseFloat(data[5].y3)/360;
@@ -275,7 +275,7 @@
       bs_data[5].y5 = pl_data[1].y5 * parseFloat(data[5].y5)/360;
       
       //Inventory
-      bs_data[2].y0 = pl_data[0].y0 * parseFloat(data[6].y0)/360;
+      bs_data[2].y0 = 0.0;
       bs_data[2].y1 = pl_data[0].y1 * parseFloat(data[6].y1)/360;
       bs_data[2].y2 = pl_data[0].y2 * parseFloat(data[6].y2)/360;
       bs_data[2].y3 = pl_data[0].y3 * parseFloat(data[6].y3)/360;
@@ -283,13 +283,45 @@
       bs_data[2].y5 = pl_data[0].y5 * parseFloat(data[6].y5)/360;
       
       //Fixed Asset
-      bs_data[3].y0 = data[7].y0;
+      bs_data[3].y0 = 0.0;
       bs_data[3].y1 = parseFloat(bs_data[3].y0) + parseFloat(data[7].y1);
       bs_data[3].y2 = parseFloat(bs_data[3].y1) + parseFloat(data[7].y2);
       bs_data[3].y3 = parseFloat(bs_data[3].y2) + parseFloat(data[7].y3);
       bs_data[3].y4 = parseFloat(bs_data[3].y3) + parseFloat(data[7].y4);
       bs_data[3].y5 = parseFloat(bs_data[3].y4) + parseFloat(data[7].y5);
-  
+      
+      //Total assets
+      bs_data[4].y0 = parseFloat(bs_data[0].y0) + bs_data[1].y0 + bs_data[2].y0 + bs_data[3].y0;
+      bs_data[4].y1 = parseFloat(bs_data[0].y1) + bs_data[1].y1 + bs_data[2].y1 + bs_data[3].y1;
+      bs_data[4].y2 = parseFloat(bs_data[0].y2) + bs_data[1].y2 + bs_data[2].y2 + bs_data[3].y2;
+      bs_data[4].y3 = parseFloat(bs_data[0].y3) + bs_data[1].y3 + bs_data[2].y3 + bs_data[3].y3;
+      bs_data[4].y4 = parseFloat(bs_data[0].y4) + bs_data[1].y4 + bs_data[2].y4 + bs_data[3].y4;
+      bs_data[4].y5 = parseFloat(bs_data[0].y5) + bs_data[1].y5 + bs_data[2].y5 + bs_data[3].y5;
+      
+      //retained earnings
+      bs_data[6].y0 = 0;
+      bs_data[6].y1 = bs_data[6].y0 + parseFloat(pl_data[7].y1);
+      bs_data[6].y2 = bs_data[6].y1 + parseFloat(pl_data[7].y2);
+      bs_data[6].y3 = bs_data[6].y2 + parseFloat(pl_data[7].y3);
+      bs_data[6].y4 = bs_data[6].y3 + parseFloat(pl_data[7].y4);
+      bs_data[6].y5 = bs_data[6].y4 + parseFloat(pl_data[7].y5);
+                                                              
+      //paid-in capital
+      bs_data[7].y0 = parseFloat(data[11].y0);
+      bs_data[7].y1 = bs_data[7].y0 + parseFloat(data[11].y1);
+      bs_data[7].y2 = bs_data[7].y1 + parseFloat(data[11].y2);
+      bs_data[7].y3 = bs_data[7].y2 + parseFloat(data[11].y3);
+      bs_data[7].y4 = bs_data[7].y3 + parseFloat(data[11].y4);
+      bs_data[7].y5 = bs_data[7].y4 + parseFloat(data[11].y5);
+      
+      //Total debt and equity
+      bs_data[8].y0 = bs_data[5].y0 + bs_data[6].y0 + bs_data[7].y0;
+      bs_data[8].y1 = bs_data[5].y1 + bs_data[6].y1 + bs_data[7].y1;
+      bs_data[8].y2 = bs_data[5].y2 + bs_data[6].y2 + bs_data[7].y2;
+      bs_data[8].y3 = bs_data[5].y3 + bs_data[6].y3 + bs_data[7].y3;
+      bs_data[8].y4 = bs_data[5].y4 + bs_data[6].y4 + bs_data[7].y4;
+      bs_data[8].y5 = bs_data[5].y5 + bs_data[6].y5 + bs_data[7].y5;
+    
     };
     
     cf_grid.recalculate = function() {
@@ -345,14 +377,20 @@
       pl_grid.invalidateAllRows();
       pl_grid.render();
       
+      
       bs_grid.recalculate();
       bs_grid.invalidateAllRows();
       bs_grid.render();
+      
       
       cf_grid.recalculate();
       cf_grid.invalidateAllRows();
       cf_grid.render();
       
+      bs_grid.recalculate();
+      bs_grid.invalidateAllRows();
+      bs_grid.render();
+
     });
     
     // //Disable Editing for Row 4
