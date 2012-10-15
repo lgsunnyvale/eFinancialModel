@@ -18,15 +18,19 @@
 </head>
 <body>
 <div id="container" class="current">
+  <span><h3>Assumptions</h3></span>
   <div id="assumption">
-    <div id="myGrid" style="height:350px;"></div>
+    <div id="myGrid" style="height:400px;"></div>
   </div>                     
+  <span><h3>P&L</h3></span>
   <div id="pl">              
      <div id="plGrid" style="height:280px;"></div>
-  </div>                            
+  </div>          
+  <span><h3>Balance Sheet</h3></span>                  
   <div id="bs">                     
-     <div id="bsGrid" style="height:250px;"></div>
+     <div id="bsGrid" style="height:300px;"></div>
   </div>
+  <span><h3>Cash Flow Statement</h3></span>
   <div id="cf">                     
      <div id="cfGrid" style="height:250px;"></div>
   </div>
@@ -57,7 +61,7 @@
       return {valid: true, msg: null};
     }
   }
-
+  
   var grid;
   var data = [
     {"title": "Revenue"},
@@ -68,7 +72,10 @@
     {"title": "Account Payable Turnover"},
     {"title": "Inventory Turnover"},
     {"title": "Capital Expenditure"},
+    {"title": "MG&A"},
     {"title": "Research & Development"},
+    {"title": "Tax"},
+    {"title": "Initial Cash"},
     {"title": "Discount rate for equity valuation"}
   ];
   
@@ -85,9 +92,11 @@
   
   var bs_data = [
     {"title": "Cash"},
-    {"title": "Working Capital"},
+    {"title": "Account Receiveable"},
+    {"title": "Inventory"},
     {"title": "Fixed Asset"},
     {"title": "Total Assets"},
+    {"title": "Account Payable"},
     {"title": "Retained Earnings"},
     {"title": "Paid-in Capital"},
     {"title": "Total liabilities and equity"}
@@ -95,6 +104,7 @@
   
   var cf_data = [
     {"title": "Net Income"},
+    {"title": "Depreciation"},
     {"title": "Changes in Working Capital"},
     {"title": "Capital Expenditures"},
     {"title": "Free Cash Flow"},
@@ -121,7 +131,6 @@
 
   var cf_columns = [
     {id: "title", name:"", field: "title", width: 200},
-    {id: "y0", name: "year 0", field: "y0", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
     {id: "y1", name: "year 1", field: "y1", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
     {id: "y2", name: "year 2", field: "y2", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
     {id: "y3", name: "year 3", field: "y3", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
@@ -172,10 +181,153 @@
     grid = new Slick.Grid("#myGrid", data, columns, options);
     
     pl_grid = new Slick.Grid("#plGrid", pl_data, pl_columns, fs_options);
-                                                             
+                                                         
     bs_grid = new Slick.Grid("#bsGrid", bs_data, bs_columns, fs_options);
     
-    cf_grid = new Slick.Grid("#cfGrid", cf_data, bs_columns, fs_options);
+    cf_grid = new Slick.Grid("#cfGrid", cf_data, cf_columns, fs_options);
+    
+    pl_data = pl_grid.getData();
+    bs_data = bs_grid.getData();
+    cf_data = cf_grid.getData();
+    
+    pl_grid.recalculate = function(){
+      //revenue
+      pl_data[0].y0 = (parseFloat(data[0].y0)).toFixed(2);
+      pl_data[0].y1 = (parseFloat(data[0].y0) * (1 + parseFloat(data[1].y1)/100   )).toFixed(2);
+      pl_data[0].y2 = (parseFloat(pl_data[0].y1) * (1 + parseFloat(data[1].y2)/100)).toFixed(2);
+      pl_data[0].y3 = (parseFloat(pl_data[0].y2) * (1 + parseFloat(data[1].y3)/100)).toFixed(2);
+      pl_data[0].y4 = (parseFloat(pl_data[0].y3) * (1 + parseFloat(data[1].y4)/100)).toFixed(2);
+      pl_data[0].y5 = (parseFloat(pl_data[0].y4) * (1 + parseFloat(data[1].y5)/100)).toFixed(2);
+      
+      //cost
+      pl_data[1].y0 = parseFloat(data[2].y0).toFixed(2);
+      pl_data[1].y1 = (parseFloat(data[2].y0)    * (1 + parseFloat(data[3].y1)/100)).toFixed(2);
+      pl_data[1].y2 = (parseFloat(pl_data[1].y1) * (1 + parseFloat(data[3].y2)/100)).toFixed(2);
+      pl_data[1].y3 = (parseFloat(pl_data[1].y2) * (1 + parseFloat(data[3].y3)/100)).toFixed(2);
+      pl_data[1].y4 = (parseFloat(pl_data[1].y3) * (1 + parseFloat(data[3].y4)/100)).toFixed(2);
+      pl_data[1].y5 = (parseFloat(pl_data[1].y4) * (1 + parseFloat(data[3].y5)/100)).toFixed(2);
+      
+      //Gross Profit
+      pl_data[2].y0 = (pl_data[0].y0 - pl_data[1].y0).toFixed(2);
+      pl_data[2].y1 = (pl_data[0].y1 - pl_data[1].y1).toFixed(2);
+      pl_data[2].y2 = (pl_data[0].y2 - pl_data[1].y2).toFixed(2);
+      pl_data[2].y3 = (pl_data[0].y3 - pl_data[1].y3).toFixed(2);
+      pl_data[2].y4 = (pl_data[0].y4 - pl_data[1].y4).toFixed(2);
+      pl_data[2].y5 = (pl_data[0].y5 - pl_data[1].y5).toFixed(2);
+      
+      //MG&A
+      pl_data[3].y0 = data[8].y0;
+      pl_data[3].y1 = data[8].y1;
+      pl_data[3].y2 = data[8].y2;
+      pl_data[3].y3 = data[8].y3;
+      pl_data[3].y4 = data[8].y4;
+      pl_data[3].y5 = data[8].y5;
+      
+      //R&D
+      pl_data[4].y0 = data[9].y0;
+      pl_data[4].y1 = data[9].y1;
+      pl_data[4].y2 = data[9].y2;
+      pl_data[4].y3 = data[9].y3;
+      pl_data[4].y4 = data[9].y4;
+      pl_data[4].y5 = data[9].y5;
+      
+      //PBT
+      pl_data[5].y0 = (pl_data[2].y0 - pl_data[3].y0 - pl_data[4].y0).toFixed(2)
+      pl_data[5].y1 = (pl_data[2].y1 - pl_data[3].y1 - pl_data[4].y1).toFixed(2)
+      pl_data[5].y2 = (pl_data[2].y2 - pl_data[3].y2 - pl_data[4].y2).toFixed(2)
+      pl_data[5].y3 = (pl_data[2].y3 - pl_data[3].y3 - pl_data[4].y3).toFixed(2)
+      pl_data[5].y4 = (pl_data[2].y4 - pl_data[3].y4 - pl_data[4].y4).toFixed(2)
+      pl_data[5].y5 = (pl_data[2].y5 - pl_data[3].y5 - pl_data[4].y5).toFixed(2)
+      
+      //Tax
+      pl_data[6].y0 = (pl_data[5].y0 > 0) ? (pl_data[5].y0 * parseFloat(data[10].y0)/100).toFixed(2) : 0;
+      pl_data[6].y1 = (pl_data[5].y1 > 0) ? (pl_data[5].y1 * parseFloat(data[10].y0)/100).toFixed(2) : 0; //assum no tax cuts (unless Romney is elected)
+      pl_data[6].y2 = (pl_data[5].y2 > 0) ? (pl_data[5].y2 * parseFloat(data[10].y0)/100).toFixed(2) : 0;
+      pl_data[6].y3 = (pl_data[5].y3 > 0) ? (pl_data[5].y3 * parseFloat(data[10].y0)/100).toFixed(2) : 0;
+      pl_data[6].y4 = (pl_data[5].y4 > 0) ? (pl_data[5].y4 * parseFloat(data[10].y0)/100).toFixed(2) : 0;
+      pl_data[6].y5 = (pl_data[5].y5 > 0) ? (pl_data[5].y5 * parseFloat(data[10].y0)/100).toFixed(2) : 0;
+      
+      //Net income
+      pl_data[7].y0 = (pl_data[5].y0 - pl_data[6].y0).toFixed(2);
+      pl_data[7].y1 = (pl_data[5].y1 - pl_data[6].y1).toFixed(2);
+      pl_data[7].y2 = (pl_data[5].y2 - pl_data[6].y2).toFixed(2);
+      pl_data[7].y3 = (pl_data[5].y3 - pl_data[6].y3).toFixed(2);
+      pl_data[7].y4 = (pl_data[5].y4 - pl_data[6].y4).toFixed(2);
+      pl_data[7].y5 = (pl_data[5].y5 - pl_data[6].y5).toFixed(2);
+      
+    };
+    
+    bs_grid.recalculate = function() {
+      //account receiveable
+      bs_data[1].y0 = pl_data[0].y0 * parseFloat(data[4].y0)/360;
+      bs_data[1].y1 = pl_data[0].y1 * parseFloat(data[4].y1)/360;
+      bs_data[1].y2 = pl_data[0].y2 * parseFloat(data[4].y2)/360;
+      bs_data[1].y3 = pl_data[0].y3 * parseFloat(data[4].y3)/360;
+      bs_data[1].y4 = pl_data[0].y4 * parseFloat(data[4].y4)/360;
+      bs_data[1].y5 = pl_data[0].y5 * parseFloat(data[4].y5)/360;
+      
+      //account payable
+      bs_data[5].y0 = pl_data[1].y0 * parseFloat(data[5].y0)/360;
+      bs_data[5].y1 = pl_data[1].y1 * parseFloat(data[5].y1)/360;
+      bs_data[5].y2 = pl_data[1].y2 * parseFloat(data[5].y2)/360;
+      bs_data[5].y3 = pl_data[1].y3 * parseFloat(data[5].y3)/360;
+      bs_data[5].y4 = pl_data[1].y4 * parseFloat(data[5].y4)/360;
+      bs_data[5].y5 = pl_data[1].y5 * parseFloat(data[5].y5)/360;
+      
+      //Inventory
+      bs_data[2].y0 = pl_data[0].y0 * parseFloat(data[6].y0)/360;
+      bs_data[2].y1 = pl_data[0].y1 * parseFloat(data[6].y1)/360;
+      bs_data[2].y2 = pl_data[0].y2 * parseFloat(data[6].y2)/360;
+      bs_data[2].y3 = pl_data[0].y3 * parseFloat(data[6].y3)/360;
+      bs_data[2].y4 = pl_data[0].y4 * parseFloat(data[6].y4)/360;
+      bs_data[2].y5 = pl_data[0].y5 * parseFloat(data[6].y5)/360;
+      
+      //Fixed Asset
+      bs_data[3].y0 = data[7].y0;
+      bs_data[3].y1 = parseFloat(bs_data[3].y0) + parseFloat(data[7].y1);
+      bs_data[3].y2 = parseFloat(bs_data[3].y1) + parseFloat(data[7].y2);
+      bs_data[3].y3 = parseFloat(bs_data[3].y2) + parseFloat(data[7].y3);
+      bs_data[3].y4 = parseFloat(bs_data[3].y3) + parseFloat(data[7].y4);
+      bs_data[3].y5 = parseFloat(bs_data[3].y4) + parseFloat(data[7].y5);
+  
+    };
+    
+    cf_grid.recalculate = function() {
+      //net income
+      cf_data[0].y1 = pl_data[7].y1;
+      cf_data[0].y2 = pl_data[7].y2;
+      cf_data[0].y3 = pl_data[7].y3;
+      cf_data[0].y4 = pl_data[7].y4;
+      cf_data[0].y5 = pl_data[7].y5;
+      
+      //changes in w/c
+      cf_data[2].y1 = (bs_data[1].y1 + bs_data[2].y1 - bs_data[5].y1) - (bs_data[1].y0 + bs_data[2].y0 - bs_data[5].y0);
+      cf_data[2].y2 = (bs_data[1].y2 + bs_data[2].y2 - bs_data[5].y2) - (bs_data[1].y1 + bs_data[2].y1 - bs_data[5].y1);
+      cf_data[2].y3 = (bs_data[1].y3 + bs_data[2].y3 - bs_data[5].y3) - (bs_data[1].y2 + bs_data[2].y2 - bs_data[5].y2);
+      cf_data[2].y4 = (bs_data[1].y4 + bs_data[2].y4 - bs_data[5].y4) - (bs_data[1].y3 + bs_data[2].y3 - bs_data[5].y3);
+      cf_data[2].y5 = (bs_data[1].y5 + bs_data[2].y5 - bs_data[5].y5) - (bs_data[1].y4 + bs_data[2].y4 - bs_data[5].y4);
+      
+      //capex
+      cf_data[3].y1 = data[7].y1;
+      cf_data[3].y2 = data[7].y2;
+      cf_data[3].y3 = data[7].y3;
+      cf_data[3].y4 = data[7].y4;
+      cf_data[3].y5 = data[7].y5;
+      
+      //fcf
+      cf_data[4].y1 = cf_data[0].y1 - cf_data[2].y1 - cf_data[3].y1;
+      cf_data[4].y2 = cf_data[0].y2 - cf_data[2].y2 - cf_data[3].y2;
+      cf_data[4].y3 = cf_data[0].y3 - cf_data[2].y3 - cf_data[3].y3;
+      cf_data[4].y4 = cf_data[0].y4 - cf_data[2].y4 - cf_data[3].y4;
+      cf_data[4].y5 = cf_data[0].y5 - cf_data[2].y5 - cf_data[3].y5;
+      
+      //ev: equity value
+      var r = parseFloat(data[12].y0)/100 //discount rate
+      cf_data[5].y1 = (cf_data[4].y1)/(1 + r) + (cf_data[4].y2)/Math.pow((1 + r), 2) + (cf_data[4].y3)/Math.pow((1 + r), 3) + (cf_data[4].y4)/Math.pow((1 + r), 4), (cf_data[4].y5)/Math.pow((1 + r), 5)
+      
+      
+      
+    };
 
     grid.setSelectionModel(new Slick.CellSelectionModel());
 
@@ -186,6 +338,30 @@
       grid.updateRowCount();
       grid.render();
     });
+    
+    grid.onCellChange.subscribe(function(e, args) {
+      
+      pl_grid.recalculate();
+      pl_grid.invalidateAllRows();
+      pl_grid.render();
+      
+      bs_grid.recalculate();
+      bs_grid.invalidateAllRows();
+      bs_grid.render();
+      
+      cf_grid.recalculate();
+      cf_grid.invalidateAllRows();
+      cf_grid.render();
+      
+    });
+    
+    // //Disable Editing for Row 4
+    // grid.onBeforeEditCell.subscribe(function(e,args) {
+    //     if (args.row === 4) {
+    //       return false;
+    //     }
+    //   });
+    
   })
 </script>
 </body>
