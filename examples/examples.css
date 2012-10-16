@@ -30,10 +30,10 @@ li {
   margin: 0;
 }
 
-#myGrid {
+.mainGrid {
   background: white;
   outline: 0;
-/*  border: 1px solid gray;*/
+  border: 1px solid gray;
 }
 
 .grid-header {

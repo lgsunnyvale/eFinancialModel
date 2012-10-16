@@ -20,19 +20,21 @@
 <div id="container" class="current">
   <span><h3>Assumptions</h3></span>
   <div id="assumption">
-    <div id="myGrid" style="height:400px;"></div>
-  </div>                     
+    <div id="myGrid" class="mainGrid" style="height:400px;"></div>
+  </div>
+  <br>                     
   <span><h3>P&L</h3></span>
   <div id="pl">              
-     <div id="plGrid" style="height:280px;"></div>
-  </div>          
+     <div id="plGrid" class="mainGrid"style="height:280px;"></div>
+  </div>        
+  <br>  
   <span><h3>Balance Sheet</h3></span>                  
   <div id="bs">                     
-     <div id="bsGrid" style="height:300px;"></div>
-  </div>
+     <div id="bsGrid" class="mainGrid" style="height:300px;"></div>
+  </div><br>
   <span><h3>Cash Flow Statement</h3></span>
   <div id="cf">                     
-     <div id="cfGrid" style="height:250px;"></div>
+     <div id="cfGrid" class="mainGrid" style="height:250px;"></div>
   </div>
   
   <!-- <div class="options-panel">
@@ -198,7 +200,6 @@
     
     grid.initialize = function() {
       data = grid.getData();
-      console.log(data)
       for (var i = 0; i < data.length; i++) {
         $.extend(true, data[i], {"y0":0,"y1":0,"y2":0,"y3":0,"y4":0,"y5":0})
       }
@@ -409,12 +410,32 @@
     
     grid.initialize();
     $(".ui-widget-content")[13].style.display="none"
-    // //Disable Editing for Row 4
-    // grid.onBeforeEditCell.subscribe(function(e,args) {
-    //     if (args.row === 4) {
-    //       return false;
-    //     }
-    //   });
+    
+    //Disable Editing for Row 4
+    grid.onBeforeEditCell.subscribe(function(e,args) {
+        // if (args.row === 4) {
+        //   return false;
+        // }
+        switch(args.row){
+          case 0:
+            if ($.inArray(args.column.field, ["y1", "y2", "y3", "y4", "y5"])!=-1) 
+              return false;
+            break;
+          case 1:
+            if (args.column.field=="y0")
+              return false;
+            break;
+          case 2:
+            if ($.inArray(args.column.field, ["y1", "y2", "y3", "y4", "y5"])!=-1) 
+              return false;
+            break;
+          case 3:
+            if (args.column.field=="y0")
+              return false;
+            break;
+        }
+        return true;
+      });
     
   })
 </script>
