@@ -297,36 +297,36 @@
     
     bs_grid.recalculate = function() {
       //cash
-      bs_data[0].y0 = parseFloat(data[11].y0);
-      bs_data[0].y1 = parseFloat(bs_data[0].y0) + parseFloat(cf_data[4].y1);
-      bs_data[0].y2 = parseFloat(bs_data[0].y1) + parseFloat(cf_data[4].y2);
-      bs_data[0].y3 = parseFloat(bs_data[0].y2) + parseFloat(cf_data[4].y3);
-      bs_data[0].y4 = parseFloat(bs_data[0].y3) + parseFloat(cf_data[4].y4);
-      bs_data[0].y5 = parseFloat(bs_data[0].y4) + parseFloat(cf_data[4].y5);
+      bs_data[0].y0 = parseFloat(data[11].y0).toFixed(2);
+      bs_data[0].y1 = (parseFloat(bs_data[0].y0) + parseFloat(cf_data[4].y1)).toFixed(2);
+      bs_data[0].y2 = (parseFloat(bs_data[0].y1) + parseFloat(cf_data[4].y2)).toFixed(2);
+      bs_data[0].y3 = (parseFloat(bs_data[0].y2) + parseFloat(cf_data[4].y3)).toFixed(2);
+      bs_data[0].y4 = (parseFloat(bs_data[0].y3) + parseFloat(cf_data[4].y4)).toFixed(2);
+      bs_data[0].y5 = (parseFloat(bs_data[0].y4) + parseFloat(cf_data[4].y5)).toFixed(2);
       
       //account receiveable
       bs_data[1].y0 = 0.0;
-      bs_data[1].y1 = pl_data[0].y1 * parseFloat(data[4].y1)/360;
-      bs_data[1].y2 = pl_data[0].y2 * parseFloat(data[4].y2)/360;
-      bs_data[1].y3 = pl_data[0].y3 * parseFloat(data[4].y3)/360;
-      bs_data[1].y4 = pl_data[0].y4 * parseFloat(data[4].y4)/360;
-      bs_data[1].y5 = pl_data[0].y5 * parseFloat(data[4].y5)/360;
+      bs_data[1].y1 = pl_data[0].y1 * (parseFloat(data[4].y1)/360).toFixed(2);
+      bs_data[1].y2 = pl_data[0].y2 * (parseFloat(data[4].y2)/360).toFixed(2);
+      bs_data[1].y3 = pl_data[0].y3 * (parseFloat(data[4].y3)/360).toFixed(2);
+      bs_data[1].y4 = pl_data[0].y4 * (parseFloat(data[4].y4)/360).toFixed(2);
+      bs_data[1].y5 = pl_data[0].y5 * (parseFloat(data[4].y5)/360).toFixed(2);
       
       //account payable
       bs_data[5].y0 = 0.0;
-      bs_data[5].y1 = pl_data[1].y1 * parseFloat(data[5].y1)/360;
-      bs_data[5].y2 = pl_data[1].y2 * parseFloat(data[5].y2)/360;
-      bs_data[5].y3 = pl_data[1].y3 * parseFloat(data[5].y3)/360;
-      bs_data[5].y4 = pl_data[1].y4 * parseFloat(data[5].y4)/360;
-      bs_data[5].y5 = pl_data[1].y5 * parseFloat(data[5].y5)/360;
+      bs_data[5].y1 = (pl_data[1].y1 * (parseFloat(data[5].y1)/360)).toFixed(2);
+      bs_data[5].y2 = (pl_data[1].y2 * (parseFloat(data[5].y2)/360)).toFixed(2);
+      bs_data[5].y3 = (pl_data[1].y3 * (parseFloat(data[5].y3)/360)).toFixed(2);
+      bs_data[5].y4 = (pl_data[1].y4 * (parseFloat(data[5].y4)/360)).toFixed(2);
+      bs_data[5].y5 = (pl_data[1].y5 * (parseFloat(data[5].y5)/360)).toFixed(2);
       
       //Inventory
       bs_data[2].y0 = 0.0;
-      bs_data[2].y1 = pl_data[0].y1 * parseFloat(data[6].y1)/360;
-      bs_data[2].y2 = pl_data[0].y2 * parseFloat(data[6].y2)/360;
-      bs_data[2].y3 = pl_data[0].y3 * parseFloat(data[6].y3)/360;
-      bs_data[2].y4 = pl_data[0].y4 * parseFloat(data[6].y4)/360;
-      bs_data[2].y5 = pl_data[0].y5 * parseFloat(data[6].y5)/360;
+      bs_data[2].y1 = pl_data[0].y1 * (parseFloat(data[6].y1)/360).toFixed(2);
+      bs_data[2].y2 = pl_data[0].y2 * (parseFloat(data[6].y2)/360).toFixed(2);
+      bs_data[2].y3 = pl_data[0].y3 * (parseFloat(data[6].y3)/360).toFixed(2);
+      bs_data[2].y4 = pl_data[0].y4 * (parseFloat(data[6].y4)/360).toFixed(2);
+      bs_data[2].y5 = pl_data[0].y5 * (parseFloat(data[6].y5)/360).toFixed(2);
       
       //Fixed Asset
       bs_data[3].y0 = 0.0;
@@ -345,7 +345,7 @@
       bs_data[4].y5 = parseFloat(bs_data[0].y5) + bs_data[1].y5 + bs_data[2].y5 + bs_data[3].y5;
       
       //retained earnings
-      bs_data[6].y0 = 0;
+      bs_data[6].y0 = 0.0;
       bs_data[6].y1 = bs_data[6].y0 + parseFloat(pl_data[7].y1);
       bs_data[6].y2 = bs_data[6].y1 + parseFloat(pl_data[7].y2);
       bs_data[6].y3 = bs_data[6].y2 + parseFloat(pl_data[7].y3);
@@ -360,13 +360,13 @@
       bs_data[7].y4 = bs_data[7].y3 + parseFloat(data[11].y4);
       bs_data[7].y5 = bs_data[7].y4 + parseFloat(data[11].y5);
       
-      //Total debt and equity
-      bs_data[8].y0 = bs_data[5].y0 + bs_data[6].y0 + bs_data[7].y0;
-      bs_data[8].y1 = bs_data[5].y1 + bs_data[6].y1 + bs_data[7].y1;
-      bs_data[8].y2 = bs_data[5].y2 + bs_data[6].y2 + bs_data[7].y2;
-      bs_data[8].y3 = bs_data[5].y3 + bs_data[6].y3 + bs_data[7].y3;
-      bs_data[8].y4 = bs_data[5].y4 + bs_data[6].y4 + bs_data[7].y4;
-      bs_data[8].y5 = bs_data[5].y5 + bs_data[6].y5 + bs_data[7].y5;
+      //Total debt and equity                     
+      bs_data[8].y0 = parseFloat(bs_data[5].y0) + parseFloat(bs_data[6].y0) + parseFloat(bs_data[7].y0);
+      bs_data[8].y1 = parseFloat(bs_data[5].y1) + parseFloat(bs_data[6].y1) + parseFloat(bs_data[7].y1);
+      bs_data[8].y2 = parseFloat(bs_data[5].y2) + parseFloat(bs_data[6].y2) + parseFloat(bs_data[7].y2);
+      bs_data[8].y3 = parseFloat(bs_data[5].y3) + parseFloat(bs_data[6].y3) + parseFloat(bs_data[7].y3);
+      bs_data[8].y4 = parseFloat(bs_data[5].y4) + parseFloat(bs_data[6].y4) + parseFloat(bs_data[7].y4);
+      bs_data[8].y5 = parseFloat(bs_data[5].y5) + parseFloat(bs_data[6].y5) + parseFloat(bs_data[7].y5);
     
     };
     
@@ -379,11 +379,11 @@
       cf_data[0].y5 = pl_data[7].y5;
       
       //changes in w/c
-      cf_data[2].y1 = (bs_data[1].y1 + bs_data[2].y1 - bs_data[5].y1) - (bs_data[1].y0 + bs_data[2].y0 - bs_data[5].y0);
-      cf_data[2].y2 = (bs_data[1].y2 + bs_data[2].y2 - bs_data[5].y2) - (bs_data[1].y1 + bs_data[2].y1 - bs_data[5].y1);
-      cf_data[2].y3 = (bs_data[1].y3 + bs_data[2].y3 - bs_data[5].y3) - (bs_data[1].y2 + bs_data[2].y2 - bs_data[5].y2);
-      cf_data[2].y4 = (bs_data[1].y4 + bs_data[2].y4 - bs_data[5].y4) - (bs_data[1].y3 + bs_data[2].y3 - bs_data[5].y3);
-      cf_data[2].y5 = (bs_data[1].y5 + bs_data[2].y5 - bs_data[5].y5) - (bs_data[1].y4 + bs_data[2].y4 - bs_data[5].y4);
+      cf_data[2].y1 = ((bs_data[1].y1 + bs_data[2].y1 - bs_data[5].y1) - (bs_data[1].y0 + bs_data[2].y0 - bs_data[5].y0)).toFixed(2);
+      cf_data[2].y2 = ((bs_data[1].y2 + bs_data[2].y2 - bs_data[5].y2) - (bs_data[1].y1 + bs_data[2].y1 - bs_data[5].y1)).toFixed(2);
+      cf_data[2].y3 = ((bs_data[1].y3 + bs_data[2].y3 - bs_data[5].y3) - (bs_data[1].y2 + bs_data[2].y2 - bs_data[5].y2)).toFixed(2);
+      cf_data[2].y4 = ((bs_data[1].y4 + bs_data[2].y4 - bs_data[5].y4) - (bs_data[1].y3 + bs_data[2].y3 - bs_data[5].y3)).toFixed(2);
+      cf_data[2].y5 = ((bs_data[1].y5 + bs_data[2].y5 - bs_data[5].y5) - (bs_data[1].y4 + bs_data[2].y4 - bs_data[5].y4)).toFixed(2);
       
       //capex
       cf_data[3].y1 = data[7].y1;
