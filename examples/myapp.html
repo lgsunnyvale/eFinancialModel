@@ -64,6 +64,26 @@
     }
   }
   
+  input_formatter = function(row, cell, value, columnDef, dataContext) {
+      if (value==undefined) value='-';
+      if (row > 3) return  "<div style='background-color:silver;color:blue !important'>" + value + "</div>";
+      if (row == 0 || row == 2) {
+          return "<div style='background-color:silver;color:blue !important'>" + value + "</div>";
+      } else {
+          return "<div style='background-color:white'> &nbsp </div>";
+      }
+  };
+  
+  disable_input_formatter = function(row, cell, value, columnDef, dataContext) {
+      if (value==undefined) value='-';
+      if (row > 3) return  "<div style='background-color:silver;color:blue !important'>" + value + "</div>";
+      if (row == 0 || row == 2) {
+          return "<div style='background-color:white'> &nbsp </div>";
+      } else {
+          return "<div style='background-color:silver;color:blue !important'>" + value + "</div>";
+      }
+  };
+  
   var grid;
   var data = [
     {"title": "Revenue"},
@@ -114,18 +134,24 @@
   ];
   
   var columns = [
-    {id: "title", name:"", field: "title", width: 200},
-    {id: "y0", name: "now", field: "y0", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-    {id: "y1", name: "year 1", field: "y1", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-    {id: "y2", name: "year 2", field: "y2", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-    {id: "y3", name: "year 3", field: "y3", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-    {id: "y4", name: "year 4", field: "y4", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-    {id: "y5", name: "year 5", field: "y5", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "title", name:"", field: "title",  width: 200 },
+    {id: "y0", name: "now", field: "y0",    width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator, formatter: input_formatter},
+    {id: "y1", name: "year 1", field: "y1", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator, formatter: disable_input_formatter},
+    {id: "y2", name: "year 2", field: "y2", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator, formatter: disable_input_formatter},
+    {id: "y3", name: "year 3", field: "y3", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator, formatter: disable_input_formatter},
+    {id: "y4", name: "year 4", field: "y4", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator, formatter: disable_input_formatter},
+    {id: "y5", name: "year 5", field: "y5", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator, formatter: disable_input_formatter},
   ];
   
-  var bs_columns = $.map(columns, function (obj) {
-                        return $.extend(true, {}, obj);
-                    });
+  var bs_columns = [
+    {id: "title", name:"", field: "title", width: 200},
+    {id: "y0", name: "now", field: "y0", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator,   },
+    {id: "y1", name: "year 1", field: "y1", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator },
+    {id: "y2", name: "year 2", field: "y2", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator },
+    {id: "y3", name: "year 3", field: "y3", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator },
+    {id: "y4", name: "year 4", field: "y4", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator },
+    {id: "y5", name: "year 5", field: "y5", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator },
+  ];
 
   var pl_columns = [
     {id: "title", name:"", field: "title", width: 200},
@@ -142,7 +168,7 @@
     {id: "y2", name: "year 2", field: "y2", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
     {id: "y3", name: "year 3", field: "y3", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
     {id: "y4", name: "year 4", field: "y4", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
-    {id: "y5", name: "year 5", field: "y5", width: 75, cssClass: "stress", editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y5", name: "year 5", field: "y5", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
   ];
   
   var options = {
@@ -160,7 +186,7 @@
     asyncEditorLoading: false,
     autoEdit: false
   }
-
+  
   $(function () {
     
     $("#add_row").click(function() {
@@ -208,6 +234,7 @@
         $.extend(true, data[i], {"y0":0,"y1":0,"y2":0,"y3":0,"y4":0,"y5":0})
       }
     }
+    grid.initialize();
     
     pl_grid.recalculate = function(){
       //revenue
