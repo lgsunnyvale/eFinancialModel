@@ -125,10 +125,15 @@
                         return $.extend(true, {}, obj);
                     });
 
-  var pl_columns = $.map(columns, function (obj) {
-                        return $.extend(true, {}, obj);
-                    });
-
+  var pl_columns = [
+    {id: "title", name:"", field: "title", width: 200},
+    {id: "y1", name: "year 1", field: "y1", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y2", name: "year 2", field: "y2", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y3", name: "year 3", field: "y3", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y4", name: "year 4", field: "y4", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+    {id: "y5", name: "year 5", field: "y5", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
+  ];
+  
   var cf_columns = [
     {id: "title", name:"", field: "title", width: 200},
     {id: "y1", name: "year 1", field: "y1", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
@@ -137,6 +142,7 @@
     {id: "y4", name: "year 4", field: "y4", width: 75, editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
     {id: "y5", name: "year 5", field: "y5", width: 75, cssClass: "stress", editor: Slick.Editors.Text, validator: requiredFieldValidator} ,
   ];
+  
   var options = {
     editable: true,
     enableAddRow: true,
@@ -402,7 +408,7 @@
     });
     
     grid.initialize();
-    
+    $(".ui-widget-content")[13].style.display="none"
     // //Disable Editing for Row 4
     // grid.onBeforeEditCell.subscribe(function(e,args) {
     //     if (args.row === 4) {
