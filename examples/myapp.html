@@ -66,8 +66,8 @@
   
   input_formatter = function(row, cell, value, columnDef, dataContext) {
       if (value==undefined) value='-';
-      if (row > 3) return  "<div style='background-color:silver;color:blue !important'>" + value + "</div>";
-      if (row == 0 || row == 2) {
+      // if (row > 3) return  "<div style='background-color:silver;color:blue !important'>" + value + "</div>";
+      if (row == 0 || row == 2 || row > 9) {
           return "<div style='background-color:silver;color:blue !important'>" + value + "</div>";
       } else {
           return "<div style='background-color:white'> &nbsp </div>";
@@ -76,8 +76,8 @@
   
   disable_input_formatter = function(row, cell, value, columnDef, dataContext) {
       if (value==undefined) value='-';
-      if (row > 3) return  "<div style='background-color:silver;color:blue !important'>" + value + "</div>";
-      if (row == 0 || row == 2) {
+      // if (row > 3) return  "<div style='background-color:silver;color:blue !important'>" + value + "</div>";
+      if (row == 0 || row == 2 || row > 9) {
           return "<div style='background-color:white'> &nbsp </div>";
       } else {
           return "<div style='background-color:silver;color:blue !important'>" + value + "</div>";
@@ -464,8 +464,25 @@
             if (args.column.field=="y0")
               return false;
             break;
+          case 10:
+            if ($.inArray(args.column.field, ["y1", "y2", "y3", "y4", "y5"])!=-1) 
+              return false;
+            break;
+          case 11:
+            if ($.inArray(args.column.field, ["y1", "y2", "y3", "y4", "y5"])!=-1) 
+              return false;
+            break;
+          case 12:
+            if ($.inArray(args.column.field, ["y1", "y2", "y3", "y4", "y5"])!=-1) 
+              return false;
+            break;
+          default:
+            if (args.column.field=="y0")
+               return false;
+            else
+               return true;
         }
-        return true;
+
       });
     
   })
